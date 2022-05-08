@@ -6,19 +6,21 @@ $(document).ready(function() {
     var uvIndex = document.querySelector("uvIndex");
     var citySearch = document.querySelector("#citySearch");
     var searchForm = document.querySelector("#searchForm");
-
-    var tempDay0 = document.querySelector("#tempDay0");
-    var tempDay1 = document.querySelector("#tempDay1");
-    var tempDay2 = document.querySelector("#tempDay2");
-    var tempDay3 = document.querySelector("#tempDay3");
-    var tempDay4 = document.querySelector("#tempDay4");
+    var fiveDay = document.getElementById("fiveDay");
 
 
-    var humidity0 = document.querySelector("#humidity0");
-    var humidity1 = document.querySelector("#humidity1");
-    var humidity2 = document.querySelector("#humidity2");
-    var humidity3 = document.querySelector("#humidity3");
-    var humidity4 = document.querySelector("#humidity4");
+    // var tempDay0 = document.querySelector("#tempDay0");
+    // var tempDay1 = document.querySelector("#tempDay1");
+    // var tempDay2 = document.querySelector("#tempDay2");
+    // var tempDay3 = document.querySelector("#tempDay3");
+    // var tempDay4 = document.querySelector("#tempDay4");
+
+
+    // var humidity0 = document.querySelector("#humidity0");
+    // var humidity1 = document.querySelector("#humidity1");
+    // var humidity2 = document.querySelector("#humidity2");
+    // var humidity3 = document.querySelector("#humidity3");
+    // var humidity4 = document.querySelector("#humidity4");
 
 
     //var getCity = function(city) {
@@ -74,7 +76,7 @@ $(document).ready(function() {
 
         if(userCity) {
             currentWeather(userCity);
-            // clearUserInput;
+            clearUserInput;
         } else{
             alert("Please enter a city!");
         }
@@ -107,8 +109,32 @@ var conditions = function(weather, city) {
 
     $("#cityName").text(weather.name);
     $("#icon").attr("src", weatherIcon);
-    console.log(weatherIcon);
+    $("#temp").text(weather.main.temp);
+    $("#humid").text(weather.main.humidity);
+    $("#windMph").text(weather.wind.speed);
+
+    var latitude = weather.coord.lat;
+    var longitude = weather.coord.lon;
+
+    var uvApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=f9ed5773e923d5279c817cf420f86c7a"
+
+    fetch(uvApi).then(function(response){
+        response.json().then(function(uvIndex){
+            var uv = uvIndex.current.uvi;
+            $("#uvIndex").text(uv);
+        })
+    })
+
 };
+
+var clearUserInput = function() {
+    var clear = fiveDay.lastElementChild
+    while (clear) {
+        fiveDay.removeChild(clear);
+        clear = fiveDay.lastElementChild
+    }
+};
+
 
     searchForm.addEventListener("submit", userInput);
 })
