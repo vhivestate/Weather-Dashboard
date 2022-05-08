@@ -18,51 +18,61 @@
     <div>
       <div>
         <h3>Search for City</h3>
-        <input type="text" placeholder="Enter City">
-        <button type="button" id="searchBtn">Search</button>
-
+        <form class="" id="searchForm">
+          <label for="city">City</label>
+          <input id="citySearch" type="text" name="city">
+          <div>
+          <button type="submit" id="searchBtn">Search</button>
+        </div>
+       </form>
       </div>
 
-      <div id="forecast">
-      <div class="card-section">
-        <h3 id="cityName">Ogden</h3>
-        <p>Temperature:<span id="temp"></span></p>
-        <p>Humidity: <span id="humid"></span></p>
+      <div class="col-lg-9 d-flex flex-column" id="forecast">
+      <div class="card">
+        <h3 class="p-4"><span id="cityName"></span><span class="p-4"id="date"></span><img id="icon" src="" alt=""></h3>
+
+        <p>Temperature:<span id="temp"></span>&#176F</p>
+        <p>Humidity: <span id="humid"></span>%</p>
         <p>Wind MPH: <span id="windMph"></span></p>
         <p>UV Index: <span id="uvIndex"></span></p>
       </div>
 
-      <div class="row" id="card-container">
-        <div class="col-sm-2" id="card">
-        <p>Temperature: <span id="tempDay0"></span> </p>
-        <p>Humidity: <span id="humidity0"></span> </p>
+      <div>
+        <h3>5 Day Forecast</h3>
+        <div class="row" id="card-container"></div>
+        <!-- <div class="col-sm-2" id="card">
+
+        <p>Temperature: <span id="tempDay0"></span>&#176F </p>
+        <p>Humidity: <span id="humidity0"></span>% </p>
       </div>
 
       <div class="col-sm-2" id="card">
-      <p>Temperature:<span id="tempDay1"></span></p>
-      <p>Humidity:<span id="humidity1"></span></p>
+      <p>Temperature:<span id="tempDay1"></span>&#176F</p>
+      <p>Humidity:<span id="humidity1"></span> %</p>
     </div>
 
     <div class="col-sm-2" id="card">
-    <p>Temperature:<span id="tempDay2"></span></p>
-    <p>Humidity:<span id="humidity2"></span></p>
+    <p>Temperature:<span id="tempDay2"></span>&#176F</p>
+    <p>Humidity:<span id="humidity2"></span>%</p>
   </div>
 
   <div class="col-sm-2" id="card">
-  <p>Temperature:<span id="tempDay3"></span></p>
-  <p>Humidity:<span id="humidity3"></span></p>
+  <p>Temperature:<span id="tempDay3"></span>&#176F</p>
+  <p>Humidity:<span id="humidity3"></span>%</p>
 </div>
 
 <div class="col-sm-2" id="card">
-<p>Temperature:<span id="tempDay4"></span></p>
-<p>Humidity:<span id="humidity4"></span></p>
+<p>Temperature:<span id="tempDay4"></span>&#176F</p>
+<p>Humidity:<span id="humidity4"></span>%</p> -->
 </div>
 
      </div>
     </div>
 
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-      <script src="./assets/script.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha512-i2CVnAiguN6SnJ3d2ChOOddMWQyvgQTzm0qSgiKhOqBMGCx4fGU5BtzXEybnKatWPDkXPFyCI0lbG42BnVjr/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      <script src="./assets/script.js"></script>
   </body>
 </html>
