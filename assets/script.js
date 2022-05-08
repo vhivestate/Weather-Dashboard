@@ -91,8 +91,6 @@ $(document).ready(function() {
           if (response.ok) {
             response.json().then(function(data) {
               conditions(data, city);
-              console.log(data);
-              console.log(city);
             });
           } else {
             alert('Error: Could not get city info');
@@ -122,8 +120,46 @@ var conditions = function(weather, city) {
         response.json().then(function(uvIndex){
             var uv = uvIndex.current.uvi;
             $("#uvIndex").text(uv);
+
+            if(uv <= 2) {
+                $("#uvIndex").removeClass("bg-danger");
+                $("#uvIndex").removeClass("bg-warning");
+                $("#uvIndex").addClass("bg-success");
+            } else if(uv >= 2 && uv <= 7) {
+                $("#uvIndex").removeClass("bg-success");
+                $("#uvIndex").removeClass("bg-danger");
+                $("#uvIndex").addClass("bg-warning");
+            } else {
+                $("#uvIndex").removeClass("bg-success");
+                $("#uvIndex").removeClass("bg-warning");
+                $("#uvIndex").addClass("bg-danger");
+            }
         })
+        genFive(latitude, longitude);
     })
+
+    var genFive = function(latitude, longitude) {
+        var fiveDayApi = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=f9ed5773e923d5279c817cf420f86c7a";
+        fetch(fiveDayApi).then(function(response){
+            response.json().then(function(fiveDayList){
+                console.log(fiveDayList);
+                
+                var dateOne = fiveDayList.list[3].dt_txt;
+                var dateTwo = fiveDayList.list[11].dt_txt;
+                var dateThree = fiveDayList.list[19].dt_txt;
+                var dateFour = fiveDayList.list[27].dt_txt;
+                var dateFive = fiveDayList.list[35].dt_txt;
+
+
+                console.log(date)
+                clearUserInput();
+                for(var i=0; i < fiveDayList.list.lenth; i++) {
+                
+                }
+            })
+        })
+
+    }
 
 };
 
