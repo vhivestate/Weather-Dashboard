@@ -9,65 +9,8 @@ $(document).ready(function() {
     var fiveDay = document.getElementById("fiveDay");
 
 
-    // var tempDay0 = document.querySelector("#tempDay0");
-    // var tempDay1 = document.querySelector("#tempDay1");
-    // var tempDay2 = document.querySelector("#tempDay2");
-    // var tempDay3 = document.querySelector("#tempDay3");
-    // var tempDay4 = document.querySelector("#tempDay4");
-
-
-    // var humidity0 = document.querySelector("#humidity0");
-    // var humidity1 = document.querySelector("#humidity1");
-    // var humidity2 = document.querySelector("#humidity2");
-    // var humidity3 = document.querySelector("#humidity3");
-    // var humidity4 = document.querySelector("#humidity4");
-
-
-    //var getCity = function(city) {
-
-    //}
-
         // set the moment js to get the dates for the cities
         $("#date").text(moment().format('LL'));
-
-    // fetch("http://api.openweathermap.org/geo/1.0/direct?q=ogden&limit=1&appid=f9ed5773e923d5279c817cf420f86c7a")
-    // .then(function(response){
-    //     return response.json();
-    // })
-    // .then(function(data){
-    // console.log(data)
-
-    // var lat = data[0].lat
-    // var lon = data[0].lon
-
-    // fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=f9ed5773e923d5279c817cf420f86c7a&units=imperial")
-    // .then(function(response){
-    //     return response.json();
-    // })
-
-    // .then(function(data){
-    // console.log(data)
-    // temperature.innerText = data.current.temp
-    // humid.innerText = data.current.humidity
-    // windMph.innerText = data.current.wind_speed
-
-    // tempDay0.innerText = data.daily[0].temp.day
-    // humidity0.innerText = data.daily[0].humidity
-
-    // tempDay1.innerText = data.daily[1].temp.day
-    // humidity1.innerText = data.daily[1].humidity
-
-    // tempDay2.innerText = data.daily[2].temp.day
-    // humidity2.innerText = data.daily[2].humidity
-
-    // tempDay3.innerText = data.daily[3].temp.day
-    // humidity3.innerText = data.daily[3].humidity
-
-    // tempDay4.innerText = data.daily[4].temp.day
-    // humidity4.innerText = data.daily[4].humidity
-
-    // })
-    // });
 
     var userInput = function(event){
         event.preventDefault();
@@ -135,26 +78,55 @@ var conditions = function(weather, city) {
                 $("#uvIndex").addClass("bg-danger");
             }
         })
-        genFive(latitude, longitude);
+        genFive(city, latitude, longitude);
     })
 
-    var genFive = function(latitude, longitude) {
+    var genFive = function(city, latitude, longitude) {
         var fiveDayApi = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=f9ed5773e923d5279c817cf420f86c7a";
         fetch(fiveDayApi).then(function(response){
             response.json().then(function(fiveDayList){
                 console.log(fiveDayList);
-                
-                var dateOne = fiveDayList.list[3].dt_txt;
-                var dateTwo = fiveDayList.list[11].dt_txt;
-                var dateThree = fiveDayList.list[19].dt_txt;
-                var dateFour = fiveDayList.list[27].dt_txt;
-                var dateFive = fiveDayList.list[35].dt_txt;
 
-
-                console.log(date)
                 clearUserInput();
-                for(var i=0; i < fiveDayList.list.lenth; i++) {
-                
+                for(var i=0; i < fiveDayList.list.length; i++) {
+                    var apiList = fiveDayList.list[i];
+                    var fiveDayDate = apiList.dt;
+                    var timeZone = fiveDayList.city.timezone;
+                    var setHrs = timeZone/60/60;
+                    var hrMoment = moment.unix(fiveDayDate).utc().utcOffset(setHrs);
+
+                    if(hrMoment.format('HH:mm') >= "11:00" && hrMoment.format('HH:mm') <= "13:00") {
+
+                        var createCard = document.createElement("div");
+                        createCard.classList = "card bg-secondary col-2";
+
+                        var createDate = document.createElement("h4");
+                        createDate.classList = "card-header text-light";
+                        createDate.textContent = hrMoment.format("MMM Do YY");
+
+                        var forecastIcon = document.createElement("img");
+                        fiveDayIcons = "https://openweathermap.org/img/w/" + apiList.weather[0].icon + ".png";
+                        $(forecastIcon).attr("src", fiveDayIcons);
+
+                        var fiveDayTemp = document.createElement("p");
+                        fiveDayTemp.classList = "fs-5 text-light";
+                        fiveDayTemp.textContent = "Temp:" + apiList.main.temp + "°F";
+
+                        var fiveDayHumid = document.createElement("p");
+                        fiveDayHumid.classList = "fs-5 text-light";
+                        fiveDayHumid.textContent = "Humidity:" + apiList.main.humidity + "%";
+
+                        var fiveDayWind = document.createElement("p");
+                        fiveDayWind.classList = "fs-5 text-light";
+                        fiveDayWind.textContent = "Wind:" + apiList.wind.speed + "MPH";
+
+                        fiveDay.appendChild(createCard);
+                        createCard.appendChild(createDate);
+                        createCard.append(forecastIcon);
+                        createCard.appendChild(fiveDayHumid);
+                        createCard.appendChild(fiveDayTemp);
+                        createCard.appendChild(fiveDayWind);
+                    }
                 }
             })
         })
