@@ -7,24 +7,60 @@ $(document).ready(function() {
     var citySearch = document.querySelector("#citySearch");
     var searchForm = document.querySelector("#searchForm");
     var fiveDay = document.getElementById("fiveDay");
+    //parsing string to make it an array
+    var history = JSON.parse(localStorage.getItem("history")) || [];
+    var historySection = document.getElementById("history");
 
 
-        // set the moment js to get the dates for the cities
+        // using moment js to get the dates for the cities
         $("#date").text(moment().format('LL'));
 
     var userInput = function(event){
         event.preventDefault();
 
         var userCity = citySearch.value.trim();
+        // adding cities to history array using push method
+        history.push(userCity);
+        console.log(history);
+
+        //Stringifing array & saving cities searched to local storage
+        localStorage.setItem("history", JSON.stringify(history));
+        displayHistory();
 
         if(userCity) {
             currentWeather(userCity);
             clearUserInput;
-        } else{
+        } 
+
+        else{
             alert("Please enter a city!");
         }
+        
     }
 
+    //Displaying cities searched for recent history
+    var displayHistory = function(){
+
+        //clears previous search so it doesn't loop and create same city btn after every search
+        historySection.innerHTML = "";
+
+        for (let i = 0; i < history.length; i++) {
+            console.log(history[i])
+            // creating btns for each city searched
+            var historyCity = document.createElement("button");
+            historyCity.textContent = history[i];
+            
+            historySection.appendChild(historyCity);
+            historyCity.addEventListener("click", function(){ 
+                alert("got it");
+            });
+
+        }
+    }
+    displayHistory();
+
+
+    //city searched api
     var currentWeather = function(city){
         var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=f9ed5773e923d5279c817cf420f86c7a";
         
@@ -40,12 +76,12 @@ $(document).ready(function() {
           }
         })
         .catch(function(error) {
-          // Notice this `.catch()` getting chained onto the end of the `.then()` method
           alert("Unable to connect to Weather App");
         });
     };
 
 var conditions = function(weather, city) {
+    //gets weather icon for city searched
     var weatherIcon = "https://openweathermap.org/img/w/" + weather.weather[0].icon + ".png";
 
     $("#cityName").text(weather.name);
@@ -58,7 +94,7 @@ var conditions = function(weather, city) {
     var longitude = weather.coord.lon;
 
     var uvApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=f9ed5773e923d5279c817cf420f86c7a"
-
+    //fetch requested for UV index
     fetch(uvApi).then(function(response){
         response.json().then(function(uvIndex){
             var uv = uvIndex.current.uvi;
@@ -96,12 +132,12 @@ var conditions = function(weather, city) {
                     var hrMoment = moment.unix(fiveDayDate).utc().utcOffset(setHrs);
 
                     if(hrMoment.format('HH:mm') >= "11:00" && hrMoment.format('HH:mm') <= "13:00") {
-
+                        //creating 5 day forecast cards
                         var createCard = document.createElement("div");
                         createCard.classList = "card bg-secondary col-2";
-
+                        // dates on 5 day forecast
                         var createDate = document.createElement("h4");
-                        createDate.classList = "card-header text-light";
+                        createDate.classList = "card-header fs-6 text-light";
                         createDate.textContent = hrMoment.format("MMM Do YY");
 
                         var forecastIcon = document.createElement("img");
@@ -109,15 +145,15 @@ var conditions = function(weather, city) {
                         $(forecastIcon).attr("src", fiveDayIcons);
 
                         var fiveDayTemp = document.createElement("p");
-                        fiveDayTemp.classList = "fs-5 text-light";
+                        fiveDayTemp.classList = "fs-6 text-light";
                         fiveDayTemp.textContent = "Temp:" + apiList.main.temp + "°F";
 
                         var fiveDayHumid = document.createElement("p");
-                        fiveDayHumid.classList = "fs-5 text-light";
+                        fiveDayHumid.classList = "fs-6 text-light";
                         fiveDayHumid.textContent = "Humidity:" + apiList.main.humidity + "%";
 
                         var fiveDayWind = document.createElement("p");
-                        fiveDayWind.classList = "fs-5 text-light";
+                        fiveDayWind.classList = "fs-6 text-light";
                         fiveDayWind.textContent = "Wind:" + apiList.wind.speed + "MPH";
 
                         fiveDay.appendChild(createCard);

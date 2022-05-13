@@ -12,33 +12,34 @@
 
   <body>
     <header> 
-      <h1>Weather Dashboard</h1>
+      <h1 class="text-center bg-dark text-white">Weather Dashboard</h1>
     </header>
 
     <div>
-      <div>
-        <h3>Search for City</h3>
+      <div class="text-center">
+        <h3 class="text-center">Search for City</h3>
         <form class="" id="searchForm">
           <label for="city">City</label>
           <input id="citySearch" type="text" name="city">
           <div>
           <button type="submit" id="searchBtn">Search</button>
+          <div id="history"></div>
         </div>
        </form>
       </div>
 
       <div class="col-lg-9 d-flex flex-column" id="forecast">
-      <div class="card">
-        <h3 class="p-4"><span id="cityName"></span><span class="p-4"id="date"></span><img id="icon" src="" alt=""></h3>
+      <div class="card ">
+        <h3 class="p-4 text-center bg-dark text-white"><span id="cityName"></span><span class="p-4 text-center"id="date"></span><img id="icon" src="" alt=""></h3>
 
-        <p>Temperature:<span id="temp"></span>&#176F</p>
-        <p>Humidity: <span id="humid"></span>%</p>
-        <p>Wind MPH: <span id="windMph"></span></p>
-        <p>UV Index: <span id="uvIndex"></span></p>
+        <p class="text-center">Temperature:<span id="temp"></span>&#176F</p>
+        <p class="text-center">Humidity: <span id="humid"></span>%</p>
+        <p class="text-center">Wind MPH: <span id="windMph"></span></p>
+        <p class="text-center ">UV Index: <span id="uvIndex"></span></p>
       </div>
 
       <div class="col-lg-9 d-flex flex-column">
-        <h3>5 Day Forecast</h3>
+        <h3 class="text-center bg-dark text-white">5 Day Forecast</h3>
         <div class="row justify-content-around m-3" id="fiveDay"></div>
 
 </div>
