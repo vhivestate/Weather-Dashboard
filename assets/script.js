@@ -1,9 +1,5 @@
 $(document).ready(function() {
 
-    var temperature = document.querySelector("#temp");
-    var humid = document.querySelector("#humid");
-    var windMph = document.querySelector("#windMph");
-    var uvIndex = document.querySelector("uvIndex");
     var citySearch = document.querySelector("#citySearch");
     var searchForm = document.querySelector("#searchForm");
     var fiveDay = document.getElementById("fiveDay");
@@ -17,7 +13,7 @@ $(document).ready(function() {
 
     var userInput = function(event){
         event.preventDefault();
-
+        //gets user input city info
         var userCity = citySearch.value.trim();
         // adding cities to history array using push method
         history.push(userCity);
