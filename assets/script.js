@@ -51,8 +51,10 @@ $(document).ready(function() {
             historyCity.textContent = history[i];
             
             historySection.appendChild(historyCity);
+
+            //get recent search 
             historyCity.addEventListener("click", function(){ 
-                alert("got it");
+                citySearch.value = history[i];
             });
 
         }
