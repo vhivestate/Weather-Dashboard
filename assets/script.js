@@ -182,9 +182,4 @@ var clearUserInput = function() {
 })
 
 
-// var getCity = document
-
-// var getCity 
-// console.log[0].name
-
 
